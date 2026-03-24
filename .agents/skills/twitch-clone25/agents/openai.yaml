@@ -1,0 +1,6 @@
+interface:
+  display_name: "Twitch Clone25"
+  short_description: "Repo-specific patterns and workflows for twitch-clone25"
+  default_prompt: "Use the twitch-clone25 repo skill to follow existing architecture, testing, and workflow conventions."
+policy:
+  allow_implicit_invocation: true
