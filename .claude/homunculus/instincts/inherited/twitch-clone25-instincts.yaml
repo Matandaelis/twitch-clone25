@@ -1,0 +1,247 @@
+# Instincts generated from https://github.com/Matandaelis/twitch-clone25
+# Generated: 2026-03-24T22:12:16.364Z
+# Version: 2.0
+# NOTE: This file supplements (does not replace) any existing curated instincts.
+# High-confidence manually curated instincts should be preserved alongside these.
+
+---
+id: twitch-clone25-commit-length
+trigger: "when writing a commit message"
+confidence: 0.6
+domain: git
+source: repo-analysis
+source_repo: https://github.com/Matandaelis/twitch-clone25
+---
+
+# Twitch Clone25 Commit Length
+
+## Action
+
+Keep commit messages concise (~29 characters)
+
+## Evidence
+
+- Average commit message length: 29 chars
+- Based on 34 commits
+
+---
+id: twitch-clone25-naming-files
+trigger: "when creating a new file"
+confidence: 0.8
+domain: code-style
+source: repo-analysis
+source_repo: https://github.com/Matandaelis/twitch-clone25
+---
+
+# Twitch Clone25 Naming Files
+
+## Action
+
+Use PascalCase naming convention
+
+## Evidence
+
+- Analyzed file naming patterns in repository
+- Dominant pattern: PascalCase
+
+---
+id: twitch-clone25-import-relative
+trigger: "when importing modules"
+confidence: 0.75
+domain: code-style
+source: repo-analysis
+source_repo: https://github.com/Matandaelis/twitch-clone25
+---
+
+# Twitch Clone25 Import Relative
+
+## Action
+
+Use relative imports for project files
+
+## Evidence
+
+- Import analysis shows relative import pattern
+- Example: import { x } from '../lib/x'
+
+---
+id: twitch-clone25-export-style
+trigger: "when exporting from a module"
+confidence: 0.7
+domain: code-style
+source: repo-analysis
+source_repo: https://github.com/Matandaelis/twitch-clone25
+---
+
+# Twitch Clone25 Export Style
+
+## Action
+
+Prefer named exports
+
+## Evidence
+
+- Export pattern analysis
+- Dominant style: named
+
+---
+id: twitch-clone25-arch-type-based
+trigger: "when adding new code"
+confidence: 0.8
+domain: architecture
+source: repo-analysis
+source_repo: https://github.com/Matandaelis/twitch-clone25
+---
+
+# Twitch Clone25 Arch Type Based
+
+## Action
+
+Place code in the appropriate type folder (components/, services/, utils/, etc.)
+
+## Evidence
+
+- Type-based module organization detected
+- Folders: assets, components, helper, store, utils
+
+---
+id: twitch-clone25-test-separate
+trigger: "when writing tests"
+confidence: 0.8
+domain: testing
+source: repo-analysis
+source_repo: https://github.com/Matandaelis/twitch-clone25
+---
+
+# Twitch Clone25 Test Separate
+
+## Action
+
+Place tests in the tests/ or __tests__/ directory, mirroring src structure
+
+## Evidence
+
+- Separate test directory pattern detected
+- Tests live in dedicated test folders
+
+---
+id: twitch-clone25-workflow-add-new-feature-with-component-and-store
+trigger: "when doing add new feature with component and store"
+confidence: 0.6
+domain: workflow
+source: repo-analysis
+source_repo: https://github.com/Matandaelis/twitch-clone25
+---
+
+# Twitch Clone25 Workflow Add New Feature With Component And Store
+
+## Action
+
+Follow the add-new-feature-with-component-and-store workflow:
+1. Create new React component(s) in src/components/FeatureName/FeatureName.jsx
+2. Create corresponding styled file(s) in src/components/FeatureName/FeatureName.styled.js
+3. Add or update Redux slice in src/store/featurename.js
+4. Update src/store/index.js to include the new slice
+5. Update or create utility files if needed (e.g., src/utils/feature.js)
+6. Update view(s) to use the new component(s)
+
+## Evidence
+
+- Workflow detected from commit patterns
+- Frequency: ~2x per month
+- Files: src/components/*/*.jsx, src/components/*/*.styled.js, src/store/*.js
+
+---
+id: twitch-clone25-workflow-add-new-view-or-page
+trigger: "when doing add new view or page"
+confidence: 0.6
+domain: workflow
+source: repo-analysis
+source_repo: https://github.com/Matandaelis/twitch-clone25
+---
+
+# Twitch Clone25 Workflow Add New View Or Page
+
+## Action
+
+Follow the add-new-view-or-page workflow:
+1. Create new view file in src/views/ViewName.jsx
+2. Optionally create a styled file in src/views/ViewName.styled.js
+3. Update navigation or routing in src/App.jsx or related files
+4. Add or update components used in the new view
+
+## Evidence
+
+- Workflow detected from commit patterns
+- Frequency: ~2x per month
+- Files: src/views/*.jsx, src/views/*.styled.js, src/App.jsx
+
+---
+id: twitch-clone25-workflow-add-new-component-with-styles
+trigger: "when doing add new component with styles"
+confidence: 0.65
+domain: workflow
+source: repo-analysis
+source_repo: https://github.com/Matandaelis/twitch-clone25
+---
+
+# Twitch Clone25 Workflow Add New Component With Styles
+
+## Action
+
+Follow the add-new-component-with-styles workflow:
+1. Create new component file in src/components/ComponentGroup/ComponentName.jsx
+2. Create corresponding styled file in src/components/ComponentGroup/ComponentName.styled.js
+
+## Evidence
+
+- Workflow detected from commit patterns
+- Frequency: ~3x per month
+- Files: src/components/*/*.jsx, src/components/*/*.styled.js
+
+---
+id: twitch-clone25-workflow-update-or-add-redux-store-slice
+trigger: "when doing update or add redux store slice"
+confidence: 0.6
+domain: workflow
+source: repo-analysis
+source_repo: https://github.com/Matandaelis/twitch-clone25
+---
+
+# Twitch Clone25 Workflow Update Or Add Redux Store Slice
+
+## Action
+
+Follow the update-or-add-redux-store-slice workflow:
+1. Create or update slice file in src/store/featurename.js
+2. Update src/store/index.js to include the slice
+3. Update components or views to use the new slice
+
+## Evidence
+
+- Workflow detected from commit patterns
+- Frequency: ~2x per month
+- Files: src/store/*.js, src/store/index.js, src/components/*/*.jsx
+
+---
+id: twitch-clone25-workflow-update-readme-documentation
+trigger: "when doing update readme documentation"
+confidence: 0.6
+domain: workflow
+source: repo-analysis
+source_repo: https://github.com/Matandaelis/twitch-clone25
+---
+
+# Twitch Clone25 Workflow Update Readme Documentation
+
+## Action
+
+Follow the update-readme-documentation workflow:
+1. Edit README.md
+
+## Evidence
+
+- Workflow detected from commit patterns
+- Frequency: ~2x per month
+- Files: README.md
+
