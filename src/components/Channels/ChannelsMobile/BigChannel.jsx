@@ -1,15 +1,37 @@
 import { StyledBigChannel } from "./BigChannel.styled";
 
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 import { FaEllipsisV } from "react-icons/fa";
 
 const BigChannel = ({ user, imageId }) => {
   const { pathname } = useLocation();
+  const navigate = useNavigate();
+
+  const handleChannelClick = () => {
+    const streamId = user.username.toLowerCase().replace(/\s+/g, '-');
+    navigate(`/stream/${streamId}`);
+  };
+
+  const handleUsernameClick = (e) => {
+    e.stopPropagation();
+    const streamId = user.username.toLowerCase().replace(/\s+/g, '-');
+    navigate(`/stream/${streamId}`);
+  };
+
+  const handleGameClick = (e) => {
+    e.stopPropagation();
+    navigate(`/browse?category=${encodeURIComponent(user.game)}`);
+  };
+
+  const handleTagClick = (e) => {
+    e.stopPropagation();
+    navigate(`/browse?tag=${encodeURIComponent(user.tag)}`);
+  };
 
   return (
     <StyledBigChannel>
-      <div className="channel-box">
+      <div className="channel-box" onClick={handleChannelClick}>
         <div
           className={`live-screen ${
             pathname.includes("browse") ? "for-browse" : ""
@@ -25,12 +47,12 @@ const BigChannel = ({ user, imageId }) => {
           </div>
           <div className="titles">
             <div className="username-box">
-              <div className="username">{user.username}</div>
+              <div className="username" onClick={handleUsernameClick}>{user.username}</div>
               <FaEllipsisV className="others" />
             </div>
             <div className="title">{user.title}</div>
-            <div className="game">{user.game}</div>
-            <div className="tag">{user.tag}</div>
+            <div className="game" onClick={handleGameClick}>{user.game}</div>
+            <div className="tag" onClick={handleTagClick}>{user.tag}</div>
           </div>
         </div>
       </div>

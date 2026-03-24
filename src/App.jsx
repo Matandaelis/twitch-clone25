@@ -5,7 +5,7 @@ import { lightTheme, darkTheme } from "./assets/styles/Theme";
 
 // React
 import { useEffect, useState } from "react";
-import { Routes, Route, Navigate, useNavigate } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 // Components
@@ -27,19 +27,20 @@ import StreamRoom from "./views/Stream/StreamRoom";
 
 const App = () => {
   const { darkStatus, sideBarStatus } = useSelector((state) => state.site);
-  const [mySize, setMySize] = useState(window.innerWidth);
-  let navigate = useNavigate();
+  const [mySize, setMySize] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return window.innerWidth;
+    }
+    return 1200;
+  });
 
   useEffect(() => {
-    if (mySize < 768) {
-      navigate("/");
-    }
     const changeSideBar = () => {
       return setMySize(window.innerWidth);
     };
     window.addEventListener("resize", changeSideBar);
     return () => window.removeEventListener("resize", changeSideBar);
-  }, [mySize]);
+  }, []);
 
   return (
     <ThemeProvider theme={darkStatus ? darkTheme : lightTheme}>

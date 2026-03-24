@@ -1,10 +1,18 @@
 import { StyledChannel } from "./Channel.styled";
+import { useNavigate } from "react-router-dom";
 import { FaCircle } from "react-icons/fa";
 
 const Channel = ({ user, imageId }) => {
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    const streamId = user.username.toLowerCase().replace(/\s+/g, '-');
+    navigate(`/stream/${streamId}`);
+  };
+
   return (
     <StyledChannel>
-      <div className="channel-box">
+      <div className="channel-box" onClick={handleClick}>
         <div className="live-screen">
           <img src={user.liveScreen} alt="" />
           <span>
