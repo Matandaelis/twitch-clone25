@@ -2,6 +2,8 @@ import styled from "styled-components";
 
 export const StyledPinnedProductOverlay = styled.div`
   position: absolute;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
   ${(props) => {
     switch (props.position) {
       case "top-left":
@@ -24,6 +26,11 @@ export const StyledPinnedProductOverlay = styled.div`
   border: 1px solid rgba(255, 255, 255, 0.1);
   z-index: 100;
   animation: slideIn 0.3s ease;
+
+  &:hover {
+    transform: scale(1.02);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  }
 
   @keyframes slideIn {
     from {
@@ -68,6 +75,7 @@ export const StyledPinnedProductOverlay = styled.div`
     color: white;
     font-size: 18px;
     transition: background-color 0.2s;
+    z-index: 10;
 
     &:hover {
       background: rgba(255, 255, 255, 0.2);
@@ -133,33 +141,62 @@ export const StyledPinnedProductOverlay = styled.div`
         margin-bottom: 10px;
       }
 
-      .buy-now-btn {
-        width: 100%;
-        padding: 8px 12px;
-        background-color: ${(props) => props.theme.color};
-        color: white;
-        border: none;
-        border-radius: 6px;
-        font-size: 13px;
-        font-weight: 600;
-        cursor: pointer;
+      .action-buttons {
         display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 6px;
-        transition: opacity 0.2s;
+        gap: 8px;
 
-        &:hover:not(:disabled) {
-          opacity: 0.9;
+        .buy-now-btn {
+          flex: 1;
+          padding: 8px 12px;
+          background-color: ${(props) => props.theme.color};
+          color: white;
+          border: none;
+          border-radius: 6px;
+          font-size: 12px;
+          font-weight: 600;
+          cursor: pointer;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 6px;
+          transition: opacity 0.2s;
+
+          &:hover:not(:disabled) {
+            opacity: 0.9;
+          }
+
+          &:disabled {
+            background-color: rgba(255, 255, 255, 0.2);
+            cursor: not-allowed;
+          }
+
+          svg {
+            font-size: 12px;
+          }
         }
 
-        &:disabled {
-          background-color: rgba(255, 255, 255, 0.2);
-          cursor: not-allowed;
-        }
+        .view-details-btn {
+          padding: 8px 12px;
+          background: rgba(255, 255, 255, 0.1);
+          color: white;
+          border: 1px solid rgba(255, 255, 255, 0.2);
+          border-radius: 6px;
+          font-size: 12px;
+          font-weight: 600;
+          cursor: pointer;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 6px;
+          transition: all 0.2s;
 
-        svg {
-          font-size: 14px;
+          &:hover {
+            background: rgba(255, 255, 255, 0.2);
+          }
+
+          svg {
+            font-size: 12px;
+          }
         }
       }
     }
@@ -184,9 +221,14 @@ export const StyledPinnedProductOverlay = styled.div`
           font-size: 14px;
         }
 
-        .buy-now-btn {
-          padding: 6px 10px;
-          font-size: 12px;
+        .action-buttons {
+          flex-direction: column;
+          
+          .buy-now-btn,
+          .view-details-btn {
+            padding: 6px 10px;
+            font-size: 11px;
+          }
         }
       }
     }
