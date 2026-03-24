@@ -73,6 +73,10 @@ const Home = () => {
     alert(`Order placed for ${product.title}! Confirmation sent to ${phoneNumber || 'your phone'}`);
   };
 
+  const handleCategoryClick = (category) => {
+    navigate(`/browse?category=${encodeURIComponent(category)}`);
+  };
+
   if (showLiveDemo) {
     return (
       <div className="fixed inset-0 z-50">
@@ -95,16 +99,16 @@ const Home = () => {
           <div className="home-box">
             <h1>Discover</h1>
             <div className="categories">
-              <div className="category-item">
+              <div className="category-item" onClick={() => handleCategoryClick('Music')}>
                 Music <IoMusicalNotesOutline className="category-icon" />
               </div>
-              <div className="category-item">
+              <div className="category-item" onClick={() => handleCategoryClick('Games')}>
                 Games <IoGameControllerOutline className="category-icon" />
               </div>
-              <div className="category-item">
+              <div className="category-item" onClick={() => handleCategoryClick('Esports')}>
                 Esports <IoTrophyOutline className="category-icon" />
               </div>
-              <div className="category-item">
+              <div className="category-item" onClick={() => handleCategoryClick('IRL')}>
                 IRL <IoMicOutline className="category-icon" />
               </div>
             </div>

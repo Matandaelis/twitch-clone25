@@ -1,12 +1,12 @@
 import styled from "styled-components";
 
 export const StyledFollowing = styled.div`
-  //Following mobile
+  //Following mobile - Base styles (mobile first)
   .follow-mobile {
-    display: none;
+    display: block;
 
     .follow-box {
-      padding: 55px 10px;
+      padding: 55px 10px 20px;
       background-color: ${(props) => props.theme.header};
       color: ${(props) => props.theme.textColor};
       position: relative;
@@ -14,7 +14,10 @@ export const StyledFollowing = styled.div`
       animation: pageAnim 0.3s ease-in-out;
 
       h1 {
+        font-size: 24px;
+        font-weight: 700;
         background-color: ${(props) => props.theme.header};
+        margin-bottom: 15px;
       }
 
       h3 {
@@ -22,13 +25,15 @@ export const StyledFollowing = styled.div`
         width: 100%;
         position: sticky;
         top: 50px;
-        padding: 8px 0;
+        padding: 12px 0;
         background-color: ${(props) => props.theme.header};
+        margin: 0;
+        z-index: 2;
       }
     }
 
-    @media (max-width: 767px) {
-      display: block;
+    @media (min-width: 768px) {
+      display: none;
     }
   }
 

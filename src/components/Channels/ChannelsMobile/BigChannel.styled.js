@@ -5,12 +5,20 @@ export const StyledBigChannel = styled.div`
     padding: 5px 0;
     user-select: none;
     animation: pageAnim 0.3s ease-in-out;
+    cursor: pointer;
 
     .live-screen {
       max-width: 300px;
       width: 100%;
       position: relative;
       z-index: -1;
+
+      img {
+        width: 100%;
+        height: auto;
+        display: block;
+        border-radius: 8px;
+      }
 
       span {
         position: absolute;
@@ -54,12 +62,20 @@ export const StyledBigChannel = styled.div`
         align-items: center;
         justify-content: center;
         cursor: pointer;
+        flex-shrink: 0;
+        
+        img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+        }
       }
 
       .titles {
         color: ${(props) => props.theme.textColor};
         font-size: 14px;
         flex: 1;
+        min-width: 0;
 
         .username-box {
           font-size: 15px;
@@ -73,6 +89,10 @@ export const StyledBigChannel = styled.div`
             cursor: pointer;
           }
 
+          .username:hover {
+            color: ${(props) => props.theme.color};
+          }
+
           .others {
             font-size: 12px;
             cursor: pointer;
@@ -81,6 +101,17 @@ export const StyledBigChannel = styled.div`
         }
         .title {
           padding: 3px 0;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+
+        .game {
+          cursor: pointer;
+          
+          &:hover {
+            color: ${(props) => props.theme.color};
+          }
         }
 
         .tag {
@@ -91,6 +122,11 @@ export const StyledBigChannel = styled.div`
           display: inline-block;
           font-size: 13px;
           cursor: pointer;
+          
+          &:hover {
+            background-color: ${(props) => props.theme.color};
+            color: white;
+          }
         }
       }
     }
@@ -116,6 +152,7 @@ export const StyledBigChannels = styled.div`
 
       .channels {
         width: max-content;
+        padding: 0 10px;
       }
 
       &::-webkit-scrollbar {

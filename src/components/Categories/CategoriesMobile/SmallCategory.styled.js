@@ -5,11 +5,15 @@ export const StyledSmallCategory = styled.div`
     padding: 5px 0;
     color: ${(props) => props.theme.textColor};
     user-select: none;
+    cursor: pointer;
+    min-width: 100px;
 
     .game-img {
       max-width: 120px;
       width: 100%;
       z-index: -1;
+      border-radius: 8px;
+      overflow: hidden;
 
       img {
         z-index: -1;
@@ -20,13 +24,24 @@ export const StyledSmallCategory = styled.div`
         -moz-user-select: none;
         -webkit-user-select: none;
         -ms-user-select: none;
+        width: 100%;
+        height: auto;
+        display: block;
+        transition: transform 0.2s ease;
       }
+    }
+
+    .game-box:hover .game-img img {
+      transform: scale(1.05);
     }
 
     .game-name {
       font-size: 15px;
       font-weight: 600;
       padding: 3px 0;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
     .game-viewer {
@@ -62,6 +77,7 @@ export const StyledSmallCategories = styled.div`
 
       .small-categories {
         width: max-content;
+        padding: 0 10px;
       }
 
       &::-webkit-scrollbar {

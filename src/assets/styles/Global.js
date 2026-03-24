@@ -21,12 +21,19 @@ body::-webkit-scrollbar-thumb {
 
 a {
   color: ${(props) => props.theme.text};
+  text-decoration: none;
 }
 
 .app {
   display: block;
 }
 
+/* Mobile First - Base styles for mobile */
+.main {
+  padding: 55px 10px 80px 10px;
+}
+
+/* Tablet breakpoint */
 @media (min-width: 768px) {
   .app {
     .main {
@@ -35,13 +42,12 @@ a {
       &.sidebar-open {
         padding-left: 265px;
       }
-    }  
+    }
   }
 }
 
-  
-
-@media (min-width: 768px) {
+/* Desktop breakpoint */
+@media (min-width: 1200px) {
   body {
     background: ${(props) => props.theme.bodyDesktop};
   }

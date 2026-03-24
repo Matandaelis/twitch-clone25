@@ -1,47 +1,65 @@
 import styled from "styled-components";
 
 export const StyledBrowse = styled.div`
-  // Mobile
+  // Mobile - Base styles (mobile first)
   .browse-mobile {
-    display: none;
+    display: block;
 
     .browse-box {
-      padding: 55px 10px;
+      padding: 55px 10px 20px;
       color: ${(props) => props.theme.textColor};
       background-color: ${(props) => props.theme.header};
       position: relative;
       z-index: 3;
       animation: pageAnim 0.3s ease-in-out;
 
+      h1 {
+        font-size: 24px;
+        font-weight: 700;
+        margin-bottom: 10px;
+      }
+
       .navigation {
         width: 100%;
         display: flex;
         align-items: center;
-        margin: 10px 0;
-        font-size: 18px;
+        margin: 15px 0;
+        font-size: 16px;
         font-weight: 500;
+        overflow-x: auto;
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+
+        &::-webkit-scrollbar {
+          display: none;
+        }
 
         & > div {
           border-bottom: 2px solid transparent;
-          padding: 5px 0;
+          padding: 8px 12px;
           cursor: pointer;
           user-select: none;
+          white-space: nowrap;
+          transition: all 0.2s ease;
+
+          &:active {
+            opacity: 0.7;
+          }
         }
 
         .nav-liveChannels {
-          margin-left: 10px;
+          margin-left: 8px;
         }
 
         .nav-active {
           border-bottom: 2px solid ${(props) => props.theme.color};
           color: ${(props) => props.theme.color};
-          transition: 0.3s;
         }
       }
     }
 
-    @media (max-width: 767px) {
-      display: block;
+    @media (min-width: 768px) {
+      display: none;
     }
   }
 
