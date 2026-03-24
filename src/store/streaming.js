@@ -77,6 +77,11 @@ export const streaming = createSlice({
         draft.activeRoom = action.payload;
       });
     },
+    setRoomObject: (state, action) => {
+      return produce(state, (draft) => {
+        draft.roomObject = action.payload;
+      });
+    },
     setRoomCredentials: (state, action) => {
       return produce(state, (draft) => {
         const { token, roomName, serverUrl } = action.payload;
@@ -186,6 +191,7 @@ export const streaming = createSlice({
     resetStreamingState: (state) => {
       return produce(state, (draft) => {
         draft.activeRoom = null;
+        draft.roomObject = null;
         draft.isConnecting = false;
         draft.isConnected = false;
         draft.connectionError = null;
@@ -208,6 +214,7 @@ export const streaming = createSlice({
 export const {
   setRoomConnectionStatus,
   setActiveRoom,
+  setRoomObject,
   setRoomCredentials,
   updateParticipants,
   addParticipant,
@@ -227,6 +234,11 @@ export const {
 } = streaming.actions;
 
 export const selectStreamingState = (state) => state.streaming;
+
+export const selectRoomObject = createSelector(
+  [selectStreamingState],
+  (streaming) => streaming.roomObject
+);
 
 export const selectActiveRoom = createSelector(
   [selectStreamingState],
@@ -271,6 +283,13 @@ export const selectPinnedProductId = createSelector(
 export const selectIsStreaming = createSelector(
   [selectStreamingState],
   (streaming) => streaming.isStreaming
+);
+
+export const selectAllProducts = (state) => state.product.products;
+
+export const selectPinnedProduct = createSelector(
+  [selectAllProducts, selectPinnedProductId],
+  (products, pinnedId) => products.find((p) => p.id === pinnedId)
 );
 
 export const selectRoomCredentials = createSelector(

@@ -6,11 +6,11 @@ import {
   selectPinnedProductId,
   setStreamingStatus,
   updateStreamSettings,
+  pinProduct,
   unpinProduct,
 } from "../../store/streaming";
 import {
   selectAllProducts,
-  selectPinnedProduct,
 } from "../../store/product";
 import {
   BsCameraVideo,
@@ -23,12 +23,11 @@ import {
   BsPinAngleFill,
 } from "react-icons/bs";
 
-const StreamControls = ({ onEndStream }) => {
+const StreamControls = ({ onEndStream, room, isStreamer = false }) => {
   const dispatch = useDispatch();
   const streamSettings = useSelector(selectStreamSettings);
   const isStreaming = useSelector(selectIsStreaming);
   const products = useSelector(selectAllProducts);
-  const pinnedProduct = useSelector(selectPinnedProduct);
   const pinnedProductId = useSelector(selectPinnedProductId);
 
   const handleToggleVideo = () => {
@@ -51,9 +50,27 @@ const StreamControls = ({ onEndStream }) => {
     dispatch(setStreamingStatus(!isStreaming));
   };
 
-  const handlePinProduct = (productId) => {
+  const handlePinProduct = async (productId) => {
+    if (!isStreamer) return;
+    
     if (pinnedProductId === productId) {
       dispatch(unpinProduct());
+      if (room?.localParticipant) {
+        try {
+          await room.localParticipant.setAttributes({});
+        } catch (e) {
+          console.error("Failed to clear pinned product attribute:", e);
+        }
+      }
+    } else {
+      dispatch(pinProduct(productId));
+      if (room?.localParticipant) {
+        try {
+          await room.localParticipant.setAttributes({ pinnedProductId: productId });
+        } catch (e) {
+          console.error("Failed to set pinned product attribute:", e);
+        }
+      }
     }
   };
 
@@ -109,28 +126,25 @@ const StreamControls = ({ onEndStream }) => {
         </div>
       </div>
 
-      <div className="product-pins">
-        <h4>Pin Product to Stream</h4>
-        <div className="product-list">
-          {products.map((product) => (
-            <button
-              key={product.id}
-              className={`product-pin-btn ${pinnedProductId === product.id ? "pinned" : ""}`}
-              onClick={() => handlePinProduct(product.id)}
-              disabled={pinnedProductId && pinnedProductId !== product.id}
-            >
-              {pinnedProductId === product.id && <BsPinAngleFill className="pin-icon" />}
-              <span className="product-name">{product.title}</span>
-              <span className="product-price">${product.price.toFixed(2)}</span>
-            </button>
-          ))}
-        </div>
-        {pinnedProduct && (
-          <div className="pinned-info">
-            <span>Currently pinned: {pinnedProduct.title}</span>
+      {isStreamer && (
+        <div className="product-pins">
+          <h4>Pin Product to Stream</h4>
+          <div className="product-list">
+            {products.map((product) => (
+              <button
+                key={product.id}
+                className={`product-pin-btn ${pinnedProductId === product.id ? "pinned" : ""}`}
+                onClick={() => handlePinProduct(product.id)}
+                disabled={pinnedProductId && pinnedProductId !== product.id}
+              >
+                {pinnedProductId === product.id && <BsPinAngleFill className="pin-icon" />}
+                <span className="product-name">{product.title}</span>
+                <span className="product-price">${product.price.toFixed(2)}</span>
+              </button>
+            ))}
           </div>
-        )}
-      </div>
+        </div>
+      )}
     </StyledStreamControls>
   );
 };

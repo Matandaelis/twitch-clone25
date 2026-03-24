@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import VideoRoom from "../../components/Streaming/VideoRoom";
 import StreamControls from "../../components/Streaming/StreamControls";
+import HostProductManager from "../../components/Streaming/HostProductManager";
 import ParticipantList from "../../components/Streaming/ParticipantList";
 import Cart from "../../components/ShoppingCart/Cart";
 import StreamAnalytics from "../../components/Analytics/StreamAnalytics";
@@ -12,12 +13,14 @@ import {
   selectRoomCredentials,
   selectIsConnected,
   selectConnectionError,
+  selectPinnedProduct,
+  selectRoomObject,
   setRoomCredentials,
   resetStreamingState,
 } from "../../store/streaming";
-import { selectPinnedProduct } from "../../store/product";
+import { selectAnalyticsStats } from "../../store/analytics";
 import { selectCartItemCount, openCart } from "../../store/cart";
-import { toggleAnalytics, startAnalytics, updateViewerCount } from "../../store/analytics";
+import { toggleAnalytics, startAnalytics } from "../../store/analytics";
 import { generateMockToken } from "../../utils/livekit";
 import { BsPeople, BsEye, BsShare, BsHeart, BsCart, BsBarChart } from "react-icons/bs";
 
@@ -31,9 +34,10 @@ const StreamRoom = () => {
   const connectionError = useSelector(selectConnectionError);
   const pinnedProduct = useSelector(selectPinnedProduct);
   const cartItemCount = useSelector(selectCartItemCount);
+  const analyticsStats = useSelector(selectAnalyticsStats);
+  const roomObject = useSelector(selectRoomObject);
 
   const [isStreamer, setIsStreamer] = useState(false);
-  const [viewerCount, setViewerCount] = useState(stream?.viewerCount || 0);
 
   useEffect(() => {
     if (!stream) {
@@ -54,18 +58,8 @@ const StreamRoom = () => {
 
     dispatch(startAnalytics(stream.id));
 
-    const viewerInterval = setInterval(() => {
-      const randomViewers = Math.floor(Math.random() * 500) + 1000;
-      setViewerCount((prev) => {
-        const newCount = prev + Math.floor(Math.random() * 20) - 10;
-        dispatch(updateViewerCount({ count: Math.max(100, newCount) }));
-        return Math.max(100, newCount);
-      });
-    }, 5000);
-
     return () => {
       dispatch(resetStreamingState());
-      clearInterval(viewerInterval);
     };
   }, [dispatch, stream, isStreamer]);
 
@@ -168,7 +162,7 @@ const StreamRoom = () => {
               )}
               <div className="viewer-count">
                 <BsEye />
-                <span>{viewerCount.toLocaleString()}</span>
+                <span>{(analyticsStats?.totalViewers || stream.viewerCount).toLocaleString()}</span>
               </div>
             </div>
           </div>
@@ -185,7 +179,15 @@ const StreamRoom = () => {
                   Streamer Mode
                 </label>
               </div>
-              <StreamControls onEndStream={handleEndStream} />
+              <StreamControls 
+                onEndStream={handleEndStream} 
+                room={roomObject}
+                isStreamer={isStreamer}
+              />
+              <HostProductManager 
+                room={roomObject}
+                isStreamer={isStreamer}
+              />
             </div>
           )}
 
@@ -202,7 +204,7 @@ const StreamRoom = () => {
             </div>
           )}
 
-          {pinnedProduct && (
+          {pinnedProduct && !isStreamer && (
             <div className="pinned-section">
               <h3>Pinned Product</h3>
               <div className="pinned-product-card">

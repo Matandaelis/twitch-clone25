@@ -12,9 +12,13 @@ import {
   addParticipant,
   removeParticipant,
   setLocalParticipant,
+  setRoomObject,
   addChatMessage,
   updateViewerCount,
+  pinProduct,
+  unpinProduct,
 } from "../../store/streaming";
+import { updateViewerCount as updateAnalyticsViewerCount } from "../../store/analytics";
 import {
   createLiveKitRoom,
   connectToRoom,
@@ -23,6 +27,7 @@ import {
   removeRoomEventListeners,
   publishData,
 } from "../../utils/livekit";
+import { RoomEvent } from "livekit-client";
 
 const VideoRoom = ({ token, serverUrl, roomName, isStreamer = false }) => {
   const dispatch = useDispatch();
@@ -63,6 +68,7 @@ const VideoRoom = ({ token, serverUrl, roomName, isStreamer = false }) => {
 
       setupRoomEventListeners(room, {
         onConnected: () => {
+          dispatch(setRoomObject(room));
           dispatch(
             setRoomConnectionStatus({
               isConnecting: false,
@@ -71,8 +77,22 @@ const VideoRoom = ({ token, serverUrl, roomName, isStreamer = false }) => {
             })
           );
           dispatch(setLocalParticipant(room.localParticipant));
+          
+          // Sync pinned product from existing participants (late-joiner sync)
+          const remoteParticipants = Array.from(room.participants.values());
+          for (const participant of remoteParticipants) {
+            if (participant.attributes && participant.attributes.pinnedProductId) {
+              dispatch(pinProduct(participant.attributes.pinnedProductId));
+              break;
+            }
+          }
+          
+          // Update viewer count with actual participants
+          const totalParticipants = room.participants.size + 1;
+          dispatch(updateAnalyticsViewerCount({ count: totalParticipants }));
         },
         onDisconnected: () => {
+          dispatch(setRoomObject(null));
           dispatch(
             setRoomConnectionStatus({
               isConnecting: false,
@@ -84,21 +104,20 @@ const VideoRoom = ({ token, serverUrl, roomName, isStreamer = false }) => {
         },
         onParticipantConnected: (participant) => {
           dispatch(addParticipant(participant));
-          dispatch(
-            updateViewerCount({
-              streamId: roomName,
-              count: room.participants.size + 1,
-            })
-          );
+          const totalParticipants = room.participants.size + 1;
+          dispatch(updateViewerCount({ streamId: roomName, count: totalParticipants }));
+          dispatch(updateAnalyticsViewerCount({ count: totalParticipants }));
+          
+          // Check for pinned product attribute on new participant
+          if (participant.attributes && participant.attributes.pinnedProductId) {
+            dispatch(pinProduct(participant.attributes.pinnedProductId));
+          }
         },
         onParticipantDisconnected: (participant) => {
           dispatch(removeParticipant(participant.sid));
-          dispatch(
-            updateViewerCount({
-              streamId: roomName,
-              count: Math.max(0, room.participants.size),
-            })
-          );
+          const totalParticipants = Math.max(0, room.participants.size);
+          dispatch(updateViewerCount({ streamId: roomName, count: totalParticipants }));
+          dispatch(updateAnalyticsViewerCount({ count: totalParticipants }));
         },
         onDataReceived: (data, participant, kind) => {
           if (data.type === "chat") {
@@ -118,6 +137,15 @@ const VideoRoom = ({ token, serverUrl, roomName, isStreamer = false }) => {
             })
           );
         },
+      });
+
+      // Listen for participant attributes changes (for late-joiner sync)
+      room.on(RoomEvent.ParticipantAttributesChanged, (participant) => {
+        if (participant.attributes && participant.attributes.pinnedProductId) {
+          dispatch(pinProduct(participant.attributes.pinnedProductId));
+        } else {
+          dispatch(unpinProduct());
+        }
       });
 
       const result = await connectToRoom(room, serverUrl, token);
