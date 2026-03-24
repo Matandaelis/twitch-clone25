@@ -1,0 +1,297 @@
+# Instincts generated from https://github.com/Matandaelis/twitch-clone25
+# Generated: 2026-03-24T22:54:44.562Z
+# Version: 2.0
+# NOTE: This file supplements (does not replace) any existing curated instincts.
+# High-confidence manually curated instincts should be preserved alongside these.
+
+---
+id: twitch-clone25-commit-length
+trigger: "when writing a commit message"
+confidence: 0.6
+domain: git
+source: repo-analysis
+source_repo: https://github.com/Matandaelis/twitch-clone25
+---
+
+# Twitch Clone25 Commit Length
+
+## Action
+
+Keep commit messages concise (~36 characters)
+
+## Evidence
+
+- Average commit message length: 36 chars
+- Based on 40 commits
+
+---
+id: twitch-clone25-naming-files
+trigger: "when creating a new file"
+confidence: 0.8
+domain: code-style
+source: repo-analysis
+source_repo: https://github.com/Matandaelis/twitch-clone25
+---
+
+# Twitch Clone25 Naming Files
+
+## Action
+
+Use PascalCase naming convention
+
+## Evidence
+
+- Analyzed file naming patterns in repository
+- Dominant pattern: PascalCase
+
+---
+id: twitch-clone25-import-relative
+trigger: "when importing modules"
+confidence: 0.75
+domain: code-style
+source: repo-analysis
+source_repo: https://github.com/Matandaelis/twitch-clone25
+---
+
+# Twitch Clone25 Import Relative
+
+## Action
+
+Use relative imports for project files
+
+## Evidence
+
+- Import analysis shows relative import pattern
+- Example: import { x } from '../lib/x'
+
+---
+id: twitch-clone25-export-style
+trigger: "when exporting from a module"
+confidence: 0.7
+domain: code-style
+source: repo-analysis
+source_repo: https://github.com/Matandaelis/twitch-clone25
+---
+
+# Twitch Clone25 Export Style
+
+## Action
+
+Prefer named exports
+
+## Evidence
+
+- Export pattern analysis
+- Dominant style: named
+
+---
+id: twitch-clone25-arch-type-based
+trigger: "when adding new code"
+confidence: 0.8
+domain: architecture
+source: repo-analysis
+source_repo: https://github.com/Matandaelis/twitch-clone25
+---
+
+# Twitch Clone25 Arch Type Based
+
+## Action
+
+Place code in the appropriate type folder (components/, services/, utils/, etc.)
+
+## Evidence
+
+- Type-based module organization detected
+- Folders: assets, components, helper, store, utils
+
+---
+id: twitch-clone25-test-separate
+trigger: "when writing tests"
+confidence: 0.8
+domain: testing
+source: repo-analysis
+source_repo: https://github.com/Matandaelis/twitch-clone25
+---
+
+# Twitch Clone25 Test Separate
+
+## Action
+
+Place tests in the tests/ or __tests__/ directory, mirroring src structure
+
+## Evidence
+
+- Separate test directory pattern detected
+- Tests live in dedicated test folders
+
+---
+id: twitch-clone25-workflow-feature-development
+trigger: "when implementing a new feature"
+confidence: 0.8
+domain: workflow
+source: repo-analysis
+source_repo: https://github.com/Matandaelis/twitch-clone25
+---
+
+# Twitch Clone25 Workflow Feature Development
+
+## Action
+
+Follow the feature-development workflow:
+1. Add feature implementation
+2. Add tests for feature
+3. Update documentation
+
+## Evidence
+
+- Workflow detected from commit patterns
+- Frequency: ~6x per month
+- Files: src/components/categories/categoriesmobile/*, src/components/channels/channelsmobile/*, src/components/header/headerdesktop/*
+
+---
+id: twitch-clone25-workflow-add-or-enhance-feature-with-component-and-redux
+trigger: "when doing add or enhance feature with component and redux"
+confidence: 0.6
+domain: workflow
+source: repo-analysis
+source_repo: https://github.com/Matandaelis/twitch-clone25
+---
+
+# Twitch Clone25 Workflow Add Or Enhance Feature With Component And Redux
+
+## Action
+
+Follow the add-or-enhance-feature-with-component-and-redux workflow:
+1. Create or update React component(s) in src/components/ or src/views/
+2. Create or update corresponding styled component files (*.styled.js)
+3. Update or add Redux store slice(s) in src/store/
+4. Update or create utility/helper files if needed
+5. Wire up new components in parent views or App.jsx
+
+## Evidence
+
+- Workflow detected from commit patterns
+- Frequency: ~2x per month
+- Files: src/components/*/*.jsx, src/components/*/*.styled.js, src/store/*.js
+
+---
+id: twitch-clone25-workflow-add-or-update-ui-component-with-styling
+trigger: "when doing add or update ui component with styling"
+confidence: 0.6
+domain: workflow
+source: repo-analysis
+source_repo: https://github.com/Matandaelis/twitch-clone25
+---
+
+# Twitch Clone25 Workflow Add Or Update Ui Component With Styling
+
+## Action
+
+Follow the add-or-update-ui-component-with-styling workflow:
+1. Create or update React component (*.jsx) in relevant folder
+2. Create or update matching styled component (*.styled.js)
+3. Import and use the component in a parent component or view
+
+## Evidence
+
+- Workflow detected from commit patterns
+- Frequency: ~2x per month
+- Files: src/components/**/*.jsx, src/components/**/*.styled.js
+
+---
+id: twitch-clone25-workflow-implement-responsive-or-theme-design
+trigger: "when doing implement responsive or theme design"
+confidence: 0.55
+domain: workflow
+source: repo-analysis
+source_repo: https://github.com/Matandaelis/twitch-clone25
+---
+
+# Twitch Clone25 Workflow Implement Responsive Or Theme Design
+
+## Action
+
+Follow the implement-responsive-or-theme-design workflow:
+1. Update src/assets/styles/Global.js and/or src/assets/styles/Theme.js
+2. Update component styled files (*.styled.js) for new breakpoints or theme variables
+3. Update relevant components to use new styles or props
+
+## Evidence
+
+- Workflow detected from commit patterns
+- Frequency: ~1x per month
+- Files: src/assets/styles/Global.js, src/assets/styles/Theme.js, src/components/**/*.styled.js
+
+---
+id: twitch-clone25-workflow-add-or-enhance-live-shopping-or-streaming-feature
+trigger: "when doing add or enhance live shopping or streaming feature"
+confidence: 0.6
+domain: workflow
+source: repo-analysis
+source_repo: https://github.com/Matandaelis/twitch-clone25
+---
+
+# Twitch Clone25 Workflow Add Or Enhance Live Shopping Or Streaming Feature
+
+## Action
+
+Follow the add-or-enhance-live-shopping-or-streaming-feature workflow:
+1. Add or update React components in src/components/Streaming/ and src/components/Products/
+2. Add or update Redux slices in src/store/ (e.g., cart.js, streaming.js, product.js, analytics.js, reactions.js)
+3. Update or create utility files for LiveKit integration
+4. Update views (e.g., src/views/Stream/StreamRoom.jsx) to use new features
+
+## Evidence
+
+- Workflow detected from commit patterns
+- Frequency: ~2x per month
+- Files: src/components/Streaming/*.jsx, src/components/Streaming/*.styled.js, src/components/Products/*.jsx
+
+---
+id: twitch-clone25-workflow-integrate-or-update-css-framework
+trigger: "when doing integrate or update css framework"
+confidence: 0.55
+domain: workflow
+source: repo-analysis
+source_repo: https://github.com/Matandaelis/twitch-clone25
+---
+
+# Twitch Clone25 Workflow Integrate Or Update Css Framework
+
+## Action
+
+Follow the integrate-or-update-css-framework workflow:
+1. Install or update package.json and package-lock.json with framework dependencies
+2. Add or update framework config files (e.g., tailwind.config.js, postcss.config.js)
+3. Update src/index.css and/or global styles
+4. Refactor or create components to use new utility classes or framework features
+
+## Evidence
+
+- Workflow detected from commit patterns
+- Frequency: ~1x per month
+- Files: package.json, package-lock.json, tailwind.config.js
+
+---
+id: twitch-clone25-workflow-add-or-update-readme
+trigger: "when doing add or update readme"
+confidence: 0.55
+domain: workflow
+source: repo-analysis
+source_repo: https://github.com/Matandaelis/twitch-clone25
+---
+
+# Twitch Clone25 Workflow Add Or Update Readme
+
+## Action
+
+Follow the add-or-update-readme workflow:
+1. Edit README.md
+2. Commit changes
+
+## Evidence
+
+- Workflow detected from commit patterns
+- Frequency: ~1x per month
+- Files: README.md
+
