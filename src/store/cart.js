@@ -7,7 +7,10 @@ const loadCartFromStorage = () => {
   try {
     const saved = localStorage.getItem(CART_STORAGE_KEY);
     if (saved) {
-      return JSON.parse(saved);
+      const parsed = JSON.parse(saved);
+      if (Array.isArray(parsed)) {
+        return parsed;
+      }
     }
   } catch (e) {
     console.error("Failed to load cart from storage:", e);
@@ -17,7 +20,8 @@ const loadCartFromStorage = () => {
 
 const saveCartToStorage = (items) => {
   try {
-    localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(items));
+    const itemsArray = Array.isArray(items) ? items : [];
+    localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(itemsArray));
   } catch (e) {
     console.error("Failed to save cart to storage:", e);
   }
@@ -28,6 +32,7 @@ export const cart = createSlice({
   initialState: {
     items: loadCartFromStorage(),
     isOpen: false,
+    hydrated: true,
   },
   reducers: {
     addToCart: (state, action) => {
@@ -47,7 +52,8 @@ export const cart = createSlice({
             addedAt: Date.now(),
           });
         }
-        saveCartToStorage(draft.items);
+        const itemsCopy = draft.items.map(item => ({ ...item }));
+        saveCartToStorage(itemsCopy);
       });
     },
     removeFromCart: (state, action) => {
@@ -55,7 +61,8 @@ export const cart = createSlice({
         draft.items = draft.items.filter(
           (item) => item.productId !== action.payload
         );
-        saveCartToStorage(draft.items);
+        const itemsCopy = draft.items.map(item => ({ ...item }));
+        saveCartToStorage(itemsCopy);
       });
     },
     updateQuantity: (state, action) => {
@@ -71,13 +78,14 @@ export const cart = createSlice({
             item.quantity = quantity;
           }
         }
-        saveCartToStorage(draft.items);
+        const itemsCopy = draft.items.map(item => ({ ...item }));
+        saveCartToStorage(itemsCopy);
       });
     },
     clearCart: (state) => {
       return produce(state, (draft) => {
         draft.items = [];
-        saveCartToStorage(draft.items);
+        saveCartToStorage([]);
       });
     },
     toggleCart: (state) => {
@@ -95,6 +103,14 @@ export const cart = createSlice({
         draft.isOpen = false;
       });
     },
+    rehydrateCart: (state, action) => {
+      return produce(state, (draft) => {
+        if (action.payload && Array.isArray(action.payload)) {
+          draft.items = action.payload;
+        }
+        draft.hydrated = true;
+      });
+    },
   },
 });
 
@@ -106,6 +122,7 @@ export const {
   toggleCart,
   openCart,
   closeCart,
+  rehydrateCart,
 } = cart.actions;
 
 export const selectCartItems = (state) => state.cart.items;

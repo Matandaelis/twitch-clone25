@@ -84,7 +84,6 @@ export const product = createSlice({
       featured: false,
       lowStock: false,
     },
-    pinnedProductId: null,
   },
   reducers: {
     addProduct: (state, action) => {
@@ -162,16 +161,6 @@ export const product = createSlice({
         };
       });
     },
-    pinProduct: (state, action) => {
-      return produce(state, (draft) => {
-        draft.pinnedProductId = action.payload;
-      });
-    },
-    unpinProduct: (state) => {
-      return produce(state, (draft) => {
-        draft.pinnedProductId = null;
-      });
-    },
   },
 });
 
@@ -186,8 +175,6 @@ export const {
   setFeaturedFilter,
   setLowStockFilter,
   clearFilters,
-  pinProduct,
-  unpinProduct,
 } = product.actions;
 
 export const selectAllProducts = (state) => state.product.products;
@@ -236,11 +223,6 @@ export const selectCategories = createSelector(
   (products) => [...new Set(products.map((p) => p.category))]
 );
 
-export const selectPinnedProduct = createSelector(
-  [selectAllProducts, (state) => state.product.pinnedProductId],
-  (products, pinnedId) => products.find((p) => p.id === pinnedId)
-);
-
 export const selectTotalInventoryValue = createSelector(
   [selectAllProducts],
   (products) =>
@@ -251,5 +233,15 @@ export const selectTotalSales = createSelector(
   [selectAllProducts],
   (products) => products.reduce((total, p) => total + p.sold, 0)
 );
+
+export const selectPinnedProductId = (state) => state.streaming.pinnedProductId;
+
+export const pinProduct = (productId) => (dispatch) => {
+  dispatch({ type: "streaming/pinProduct", payload: productId });
+};
+
+export const unpinProduct = () => (dispatch) => {
+  dispatch({ type: "streaming/unpinProduct" });
+};
 
 export default product.reducer;
