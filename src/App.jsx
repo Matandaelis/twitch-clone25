@@ -21,6 +21,9 @@ import PageOverview from "./views/Following/PageOverview";
 import PageLive from "./views/Following/PageLive";
 import PageVideos from "./views/Following/PageVideos";
 import PageCategories from "./views/Following/PageCategories";
+import Shop from "./views/Shop/Shop";
+import StreamList from "./views/Stream/StreamList";
+import StreamRoom from "./views/Stream/StreamRoom";
 
 const App = () => {
   const { darkStatus, sideBarStatus } = useSelector((state) => state.site);
@@ -51,6 +54,9 @@ const App = () => {
           <Routes>
             <Route path="*" element={<Navigate to="/" replace />} />
             <Route path="/" element={<Home />} />
+            <Route path="/shop" element={<Shop />} />
+            <Route path="/streams" element={<StreamList />} />
+            <Route path="/stream/:roomId" element={<StreamRoom />} />
             <Route path="/following/" element={<Following />}>
               <Route index element={<PageOverview />} />
               <Route path="live" element={<PageLive />} />
