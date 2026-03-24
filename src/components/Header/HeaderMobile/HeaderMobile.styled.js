@@ -65,14 +65,15 @@ export const StyledHeaderMobile = styled.header`
       display: flex;
       flex-direction: column;
       align-items: center;
-      font-size: 26px;
+      font-size: 22px;
       color: ${(props) => props.theme.iconColor};
       cursor: pointer;
       transition: 0.3s;
+      flex: 1;
 
       span {
-        font-size: 12px;
-        margin-top: 5px;
+        font-size: 10px;
+        margin-top: 4px;
       }
 
       .item__browse {

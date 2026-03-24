@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 
 // React icons
-import { BsTwitch, BsSuitDiamondFill } from "react-icons/bs";
+import { BsTwitch, BsSuitDiamondFill, BsShop, BsBroadcast } from "react-icons/bs";
 import { FaEllipsisV } from "react-icons/fa";
 import { BiSearch, BiMessageAlt, BiArchive } from "react-icons/bi";
 import { CgCrown } from "react-icons/cg";
@@ -42,6 +42,16 @@ const HeaderDesktop = ({ mySize }) => {
                 <li className={pathname.includes("browse") ? "active" : ""}>
                   <Link to="/browse" className="link">
                     <div className="item">Browse</div>
+                  </Link>
+                </li>
+                <li className={pathname.includes("shop") ? "active" : ""}>
+                  <Link to="/shop" className="link">
+                    <div className="item">Shop</div>
+                  </Link>
+                </li>
+                <li className={pathname.includes("stream") ? "active" : ""}>
+                  <Link to="/streams" className="link">
+                    <div className="item">Live</div>
                   </Link>
                 </li>
                 <li>

@@ -14,6 +14,7 @@ import {
   BiUser,
 } from "react-icons/bi";
 import { RiCompass3Line, RiFileCopyLine, RiHeartFill } from "react-icons/ri";
+import { BsShop, BsBroadcast } from "react-icons/bs";
 
 // Components
 import SearchBar from "./SearchBar";
@@ -67,6 +68,18 @@ const HeaderMobile = () => {
           <div className={`item ${pathname === "/browse" ? "active" : ""}`}>
             <RiFileCopyLine className="item__browse" />
             <span>Browse</span>
+          </div>
+        </Link>
+        <Link to="/shop">
+          <div className={`item ${pathname === "/shop" ? "active" : ""}`}>
+            <BsShop />
+            <span>Shop</span>
+          </div>
+        </Link>
+        <Link to="/streams">
+          <div className={`item ${pathname === "/streams" ? "active" : ""}`}>
+            <BsBroadcast />
+            <span>Live</span>
           </div>
         </Link>
       </nav>
