@@ -5,6 +5,8 @@ import { useDispatch, useSelector } from "react-redux";
 import VideoRoom from "../../components/Streaming/VideoRoom";
 import StreamControls from "../../components/Streaming/StreamControls";
 import ParticipantList from "../../components/Streaming/ParticipantList";
+import Cart from "../../components/ShoppingCart/Cart";
+import StreamAnalytics from "../../components/Analytics/StreamAnalytics";
 import {
   selectStreamById,
   selectRoomCredentials,
@@ -14,8 +16,10 @@ import {
   resetStreamingState,
 } from "../../store/streaming";
 import { selectPinnedProduct } from "../../store/product";
+import { selectCartItemCount, openCart } from "../../store/cart";
+import { toggleAnalytics, startAnalytics, updateViewerCount } from "../../store/analytics";
 import { generateMockToken } from "../../utils/livekit";
-import { BsPeople, BsEye, BsShare, BsHeart } from "react-icons/bs";
+import { BsPeople, BsEye, BsShare, BsHeart, BsCart, BsBarChart } from "react-icons/bs";
 
 const StreamRoom = () => {
   const { roomId } = useParams();
@@ -26,6 +30,7 @@ const StreamRoom = () => {
   const isConnected = useSelector(selectIsConnected);
   const connectionError = useSelector(selectConnectionError);
   const pinnedProduct = useSelector(selectPinnedProduct);
+  const cartItemCount = useSelector(selectCartItemCount);
 
   const [isStreamer, setIsStreamer] = useState(false);
   const [viewerCount, setViewerCount] = useState(stream?.viewerCount || 0);
@@ -47,14 +52,34 @@ const StreamRoom = () => {
       })
     );
 
+    dispatch(startAnalytics(stream.id));
+
+    const viewerInterval = setInterval(() => {
+      const randomViewers = Math.floor(Math.random() * 500) + 1000;
+      setViewerCount((prev) => {
+        const newCount = prev + Math.floor(Math.random() * 20) - 10;
+        dispatch(updateViewerCount({ count: Math.max(100, newCount) }));
+        return Math.max(100, newCount);
+      });
+    }, 5000);
+
     return () => {
       dispatch(resetStreamingState());
+      clearInterval(viewerInterval);
     };
   }, [dispatch, stream, isStreamer]);
 
   const handleEndStream = () => {
     dispatch(resetStreamingState());
     navigate("/streams");
+  };
+
+  const handleOpenCart = () => {
+    dispatch(openCart());
+  };
+
+  const handleToggleAnalytics = () => {
+    dispatch(toggleAnalytics());
   };
 
   const formatDuration = (startTime) => {
@@ -131,6 +156,16 @@ const StreamRoom = () => {
                 <BsShare />
                 Share
               </button>
+              <button className="action-btn cart-btn" onClick={handleOpenCart}>
+                <BsCart />
+                Cart ({cartItemCount})
+              </button>
+              {isStreamer && (
+                <button className="action-btn analytics-btn" onClick={handleToggleAnalytics}>
+                  <BsBarChart />
+                  Analytics
+                </button>
+              )}
               <div className="viewer-count">
                 <BsEye />
                 <span>{viewerCount.toLocaleString()}</span>
@@ -185,7 +220,7 @@ const StreamRoom = () => {
                         ).toFixed(2)
                       : pinnedProduct.price.toFixed(2)}
                   </p>
-                  <button className="buy-btn">Buy Now</button>
+                  <button className="buy-btn" onClick={handleOpenCart}>Add to Cart</button>
                 </div>
               </div>
             </div>
@@ -200,6 +235,9 @@ const StreamRoom = () => {
           </div>
         </div>
       </div>
+
+      <Cart />
+      <StreamAnalytics />
     </StyledStreamRoom>
   );
 };

@@ -1,7 +1,8 @@
-import { useEffect, useRef, useCallback } from "react";
+import { useEffect, useRef, useCallback, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { StyledVideoRoom } from "./VideoRoom.styled";
 import PinnedProductOverlay from "../Products/PinnedProductOverlay";
+import ViewerReactions from "../ViewerReactions/ViewerReactions";
 import {
   selectIsConnected,
   selectParticipants,
@@ -20,6 +21,7 @@ import {
   disconnectFromRoom,
   setupRoomEventListeners,
   removeRoomEventListeners,
+  publishData,
 } from "../../utils/livekit";
 
 const VideoRoom = ({ token, serverUrl, roomName, isStreamer = false }) => {
@@ -28,6 +30,7 @@ const VideoRoom = ({ token, serverUrl, roomName, isStreamer = false }) => {
   const roomRef = useRef(null);
   const localVideoRef = useRef(null);
   const screenShareRef = useRef(null);
+  const [useConference, setUseConference] = useState(true);
 
   const isConnected = useSelector(selectIsConnected);
   const participants = useSelector(selectParticipants);
@@ -97,9 +100,13 @@ const VideoRoom = ({ token, serverUrl, roomName, isStreamer = false }) => {
             })
           );
         },
-        onDataReceived: (data) => {
+        onDataReceived: (data, participant, kind) => {
           if (data.type === "chat") {
             dispatch(addChatMessage(data.payload));
+          } else if (data.type === "stock-update") {
+            dispatch({ type: "product/updateStock", payload: data.payload });
+          } else if (data.type === "reaction") {
+            dispatch({ type: "reactions/addReaction", payload: data.payload });
           }
         },
         onError: (error) => {
@@ -228,6 +235,10 @@ const VideoRoom = ({ token, serverUrl, roomName, isStreamer = false }) => {
               playsInline
             />
           )}
+          <div className="conference-placeholder">
+            <p>LiveKit Video Conference Mode</p>
+            <small>Press to enable multi-participant view</small>
+          </div>
         </div>
       ) : (
         <div className="viewer-container">
@@ -237,16 +248,19 @@ const VideoRoom = ({ token, serverUrl, roomName, isStreamer = false }) => {
               <p>Waiting for streamer...</p>
             </div>
           ) : (
-            participants.map((participant) => (
-              <div
-                key={participant.sid}
-                className="participant-container"
-                id={`container-${participant.sid}`}
-              >
-                <span className="participant-name">{participant.identity}</span>
-              </div>
-            ))
+            <div className="video-grid">
+              {participants.map((participant) => (
+                <div
+                  key={participant.sid}
+                  className="participant-container"
+                  id={`container-${participant.sid}`}
+                >
+                  <span className="participant-name">{participant.identity}</span>
+                </div>
+              ))}
+            </div>
           )}
+          <ViewerReactions />
         </div>
       )}
       <PinnedProductOverlay position="bottom-right" />

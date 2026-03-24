@@ -84,6 +84,31 @@ export const publishData = async (room, data) => {
   }
 };
 
+export const sendStockUpdate = async (room, productId, stock) => {
+  return publishData(room, {
+    type: "stock-update",
+    payload: { productId, quantity: stock - (await getCurrentStock(room, productId)) },
+  });
+};
+
+export const sendReaction = async (room, emoji, participantName) => {
+  return publishData(room, {
+    type: "reaction",
+    payload: { emoji, participantName },
+  });
+};
+
+export const sendChatMessage = async (room, message, senderName) => {
+  return publishData(room, {
+    type: "chat",
+    payload: { message, senderName, timestamp: Date.now() },
+  });
+};
+
+const getCurrentStock = async (room, productId) => {
+  return 0;
+};
+
 export const setupRoomEventListeners = (room, callbacks) => {
   const {
     onConnected,

@@ -5,6 +5,9 @@ import userReducers from "./user";
 import categoryReducers from "./category";
 import productReducers from "./product";
 import streamingReducers from "./streaming";
+import cartReducers from "./cart";
+import reactionsReducers from "./reactions";
+import analyticsReducers from "./analytics";
 
 export default configureStore({
   reducer: {
@@ -13,5 +16,8 @@ export default configureStore({
     category: categoryReducers,
     product: productReducers,
     streaming: streamingReducers,
+    cart: cartReducers,
+    reactions: reactionsReducers,
+    analytics: analyticsReducers,
   },
 });

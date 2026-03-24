@@ -30,6 +30,29 @@ export const StyledVideoRoom = styled.div`
       z-index: 2;
     }
 
+    .conference-placeholder {
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(0, 0, 0, 0.7);
+      padding: 12px 20px;
+      border-radius: 8px;
+      text-align: center;
+
+      p {
+        color: white;
+        font-size: 14px;
+        margin: 0;
+        font-weight: 500;
+      }
+
+      small {
+        color: rgba(255, 255, 255, 0.6);
+        font-size: 12px;
+      }
+    }
+
     &::after {
       content: "LIVE";
       position: absolute;
@@ -64,6 +87,16 @@ export const StyledVideoRoom = styled.div`
     align-items: center;
     justify-content: center;
     background-color: #0e0e10;
+    position: relative;
+
+    .video-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 8px;
+      width: 100%;
+      height: 100%;
+      padding: 8px;
+    }
 
     .waiting-screen {
       text-align: center;
@@ -94,6 +127,10 @@ export const StyledVideoRoom = styled.div`
       position: relative;
       width: 100%;
       height: 100%;
+      min-height: 200px;
+      background: #1a1a1a;
+      border-radius: 8px;
+      overflow: hidden;
 
       video {
         width: 100%;
@@ -136,6 +173,10 @@ export const StyledVideoRoom = styled.div`
       left: 12px;
       padding: 4px 8px;
       font-size: 12px;
+    }
+
+    .viewer-container .video-grid {
+      grid-template-columns: 1fr;
     }
   }
 `;
